@@ -51,6 +51,9 @@ export class CadResponsavelComponent implements OnInit {
         }
       });
   }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
  
   private pesquisarPorId() {
@@ -108,7 +111,5 @@ export class CadResponsavelComponent implements OnInit {
       this.form.get("email").setValue(this.responsavel.email);
     }
   }
-
-  
 
 }

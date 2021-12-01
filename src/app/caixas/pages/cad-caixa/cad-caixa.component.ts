@@ -36,11 +36,11 @@ export class CadCaixaComponent implements OnInit {
   public formaPagamentoSel: string;
 
   //Somente para atualizar o grid de produtos
-  public orcamentoItens: OrcamentoItem[] = [];
+  public caixaItens: CaixaItem[] = [];
 
 
   public form: FormGroup = new FormGroup({
-    dataOrcamento: new FormControl(new Date(),),
+    dataCaixa: new FormControl(new Date(),),
     responsavelId: new FormControl(null, [Validators.required]),
     usuarioId: new FormControl(null),
     formaPagamentoId: new FormControl(1, [Validators.required]),
