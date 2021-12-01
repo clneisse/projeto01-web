@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export class Cliente {
+export class Fornecedor {
     public id: string;
     public codigoExterno: string;
     public ativo: boolean;
@@ -20,7 +20,7 @@ export class Cliente {
     public email: string;
     public limiteDeCredito: number = 0;
 
-    constructor(init?: Partial<Cliente>) {
+    constructor(init?: Partial<Fornecedor>) {
         debugger;
         if (init) {
             Object.assign(this, init);

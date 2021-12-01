@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Cliente } from '../clientes/cliente';
+import { Cliente } from '../fornecedores/fornecedor';
 import { FormaPagamento } from '../forma-pagamento/forma-pagamento';
 import { OrcamentoItem } from './orcamento-item';
 

@@ -3,11 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AppRoutes } from 'src/app/app-routes';
-import { ClienteService } from 'src/app/data-services/cliente.service';
+import { ClienteService } from 'src/app/data-services/fornecedor.service';
 import { FormaPagamentoService } from 'src/app/data-services/forma-pagamento.service';
 import { OrcamentoService } from 'src/app/data-services/orcamento.service';
 import { AssignFormHelper } from 'src/app/helper/AssignFormHelper';
-import { Cliente } from 'src/app/models/clientes/cliente';
+import { Cliente } from 'src/app/models/fornecedores/fornecedor';
 import { FormaPagamento } from 'src/app/models/forma-pagamento/forma-pagamento';
 import { Orcamento } from 'src/app/models/orcamento/orcamento';
 

@@ -3,23 +3,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AppRoutes } from 'src/app/app-routes';
-import { ClienteService } from 'src/app/data-services/cliente.service';
+import { FornecedorService } from 'src/app/data-services/fornecedor.service';
 import { IbgeService } from 'src/app/data-services/ibge.service';
 import { AssignFormHelper } from 'src/app/helper/AssignFormHelper';
-import { Cliente } from 'src/app/models/clientes/cliente';
+import { Fornecedor } from 'src/app/models/fornecedores/fornecedor';
 import { Cidade } from 'src/app/models/ibge/cidade';
 import { Estado } from 'src/app/models/ibge/estado';
 
 @Component({
-  selector: 'app-cad-cliente',
-  templateUrl: './cad-cliente.component.html',
-  styleUrls: ['./cad-cliente.component.scss']
+  selector: 'app-cad-fornecedor',
+  templateUrl: './cad-fornecedor.component.html',
+  styleUrls: ['./cad-fornecedor.component.scss']
 })
-export class CadClienteComponent implements OnInit {
+export class CadFornecedorComponent implements OnInit {
 
   private idSelecionado: string;
   public novoRegistro: boolean = false;
-  public cliente: Cliente;
+  public fornecedor: Fornecedor;
   public pessoaJuridica: boolean = true;
 
   public estados: Estado[] = [];
@@ -53,7 +53,7 @@ export class CadClienteComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private modalService: NzModalService,
-    private clienteService: ClienteService,
+    private fornecedorService: FornecedorService,
     private ibgeService: IbgeService
   ) {
     this.activatedRoute.params.subscribe(
@@ -65,7 +65,7 @@ export class CadClienteComponent implements OnInit {
         //Caso o parametro seja o valor "novo" então devemos gerar um novo registro
         if (this.idSelecionado == null || this.idSelecionado.toLowerCase() === 'novo') {
           this.novoRegistro = true;
-          this.cliente = new Cliente();
+          this.fornecedor = new Fornecedor();
           //Caso contrário devemos consultar na base para atualizar os valores
         } else {
           this.pesquisarPorId();
@@ -93,9 +93,9 @@ export class CadClienteComponent implements OnInit {
   }
 
   private pesquisarPorId() {
-    this.clienteService.getById(this.idSelecionado).subscribe(
+    this.fornecedorService.getById(this.idSelecionado).subscribe(
       (result) => {
-        this.cliente = result;        
+        this.fornecedor = result;        
         this.carregarDados();
       },
       (err) => { }
@@ -103,24 +103,24 @@ export class CadClienteComponent implements OnInit {
   }
 
   public cancelar(): void {
-    this.router.navigateByUrl(AppRoutes.Clientes.base());
+    this.router.navigateByUrl(AppRoutes.Fornecedores.base());
   }
 
   public salvar(): void {
 
     //Passa os valores do form para o objeto
-    AssignFormHelper.assignFormValues<Cliente>(this.form, this.cliente);
+    AssignFormHelper.assignFormValues<Fornecedor>(this.form, this.fornecedor);
 
-    console.log(this.cliente);
+    console.log(this.fornecedor);
 
     //Se o form estiver válido segue para o processo de salvar ou atualizar
     if (this.form.valid) {
 
-      this.cliente.cidadeId = this.cliente.cidadeId.toString();
-      this.cliente.estadoId = this.cliente.estadoId.toString();
+      this.fornecedor.cidadeId = this.fornecedor.cidadeId.toString();
+      this.fornecedor.estadoId = this.fornecedor.estadoId.toString();
 
       //Verificar qual operaçao o usuário está querendo executar
-      const operacao = this.novoRegistro ? this.clienteService.add(this.cliente) : this.clienteService.update(this.cliente);
+      const operacao = this.novoRegistro ? this.fornecedorService.add(this.fornecedor) : this.fornecedorService.update(this.fornecedor);
 
       operacao.subscribe((result) => {
         this.cancelar();
@@ -144,28 +144,28 @@ export class CadClienteComponent implements OnInit {
   }
 
   private carregarDados() {
-    if (this.cliente) {
-      this.form.get("codigoExterno").setValue(this.cliente.codigoExterno);
-      this.form.get("ativo").setValue(this.cliente.ativo);
-      this.form.get("nome").setValue(this.cliente.nome);
-      this.form.get("razaoSocial").setValue(this.cliente.razaoSocial);
-      this.form.get("cnpj").setValue(this.cliente.cnpj);
-      this.form.get("cpf").setValue(this.cliente.cpf);
-      this.form.get("rua").setValue(this.cliente.rua);
-      this.form.get("numero").setValue(this.cliente.numero);
-      this.form.get("complemento").setValue(this.cliente.complemento);
-      this.form.get("bairro").setValue(this.cliente.bairro);
-      this.form.get("estadoId").setValue(this.cliente.estadoId);
-      this.form.get("cidadeId").setValue(this.cliente.cidadeId);
+    if (this.fornecedor) {
+      this.form.get("codigoExterno").setValue(this.fornecedor.codigoExterno);
+      this.form.get("ativo").setValue(this.fornecedor.ativo);
+      this.form.get("nome").setValue(this.fornecedor.nome);
+      this.form.get("razaoSocial").setValue(this.fornecedor.razaoSocial);
+      this.form.get("cnpj").setValue(this.fornecedor.cnpj);
+      this.form.get("cpf").setValue(this.fornecedor.cpf);
+      this.form.get("rua").setValue(this.fornecedor.rua);
+      this.form.get("numero").setValue(this.fornecedor.numero);
+      this.form.get("complemento").setValue(this.fornecedor.complemento);
+      this.form.get("bairro").setValue(this.fornecedor.bairro);
+      this.form.get("estadoId").setValue(this.fornecedor.estadoId);
+      this.form.get("cidadeId").setValue(this.fornecedor.cidadeId);
       //this.form.get("cidadeNome").setValue(this.cliente.cidadeNome);
-      this.form.get("cep").setValue(this.cliente.cep);
-      this.form.get("fone").setValue(this.cliente.fone);
-      this.form.get("email").setValue(this.cliente.email);
-      this.form.get("limiteDeCredito").setValue(this.cliente.limiteDeCredito);
+      this.form.get("cep").setValue(this.fornecedor.cep);
+      this.form.get("fone").setValue(this.fornecedor.fone);
+      this.form.get("email").setValue(this.fornecedor.email);
+      this.form.get("limiteDeCredito").setValue(this.fornecedor.limiteDeCredito);
 
       //Campos 
-      this.estadoSelecionado = Number(this.cliente.estadoId);
-      this.cidadeSelecionada = Number(this.cliente.cidadeId);
+      this.estadoSelecionado = Number(this.fornecedor.estadoId);
+      this.cidadeSelecionada = Number(this.fornecedor.cidadeId);
     }
   }
 

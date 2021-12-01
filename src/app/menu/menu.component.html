@@ -1,11 +1,21 @@
 <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-    <li nz-submenu nzTitle="Clientes" nzIcon="usergroup-add">
+    <li nz-submenu nzTitle="Fornecedores" nzIcon="usergroup-add">
         <ul>
             <li nz-menu-item nzMatchRouter [nzMatchRouterExact]="true">
-                <a routerLink="/clientes">Consulta</a>
+                <a routerLink="/fornecedores">Consulta</a>
             </li>
             <li nz-menu-item nzMatchRouter [nzMatchRouterExact]="true">
-                <a routerLink="/clientes/cad-cliente">Novo</a>
+                <a routerLink="/fornecedores/cad-fornecedor">Novo</a>
+            </li>
+        </ul>
+    </li>
+    <li nz-submenu nzTitle="Responsaveis" nzIcon="usergroup-add">
+        <ul>
+            <li nz-menu-item nzMatchRouter [nzMatchRouterExact]="true">
+                <a routerLink="/responsaveis">Consulta</a>
+            </li>
+            <li nz-menu-item nzMatchRouter [nzMatchRouterExact]="true">
+                <a routerLink="/responsaveis/cad-responsavel">Novo</a>
             </li>
         </ul>
     </li>

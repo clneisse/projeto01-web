@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ClientesRoutingModule } from './clientes-routing.module';
-import { ClienteComponent } from './pages/cliente/cliente.component';
-import { CadClienteComponent } from './pages/cad-cliente/cad-cliente.component';
+import { ResponsaveisRoutingModule } from './responsaveis-routing.module';
+import { ResponsavelComponent } from './pages/responsavel/responsavel.component';
+import { CadResponsavelComponent } from './pages/cad-responsavel/cad-responsavel.component';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,12 +23,12 @@ import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
-    ClienteComponent,
-    CadClienteComponent
+    ResponsavelComponent,
+    CadResponsavelComponent
   ],
   imports: [
     CommonModule,
-    ClientesRoutingModule,
+    ResponsaveisRoutingModule,
     NzPageHeaderModule,
     NzLayoutModule,    
     FormsModule,

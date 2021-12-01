@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { ClienteService } from 'src/app/data-services/cliente.service';
-import { Cliente } from 'src/app/models/clientes/cliente';
+import { FornecedorService } from 'src/app/data-services/fornecedor.service';
+import { Fornecedor } from 'src/app/models/fornecedores/fornecedor';
 import { debounce } from 'lodash';
 import { AppRoutes } from 'src/app/app-routes';
 
 @Component({
-  selector: 'app-cliente',
-  templateUrl: './cliente.component.html',
-  styleUrls: ['./cliente.component.scss']
+  selector: 'app-fornecedor',
+  templateUrl: './fornecedor.component.html',
+  styleUrls: ['./fornecedor.component.scss']
 })
-export class ClienteComponent implements OnInit {
+export class FornecedorComponent implements OnInit {
 
   public loading: boolean = false;
-  public clientes: Cliente[] = [];
+  public fornecedores: Fornecedor[] = [];
 
   constructor(
     private router: Router,
-    private clienteService: ClienteService,
+    private fornecedorService: FornecedorService,
     private modalService: NzModalService
   ) {
 
@@ -32,7 +32,7 @@ export class ClienteComponent implements OnInit {
   }
 
   public novo(): void {
-    const url = `${AppRoutes.Clientes.Cadastro()}/novo`;
+    const url = `${AppRoutes.Fornecedores.Cadastro()}/novo`;
     this.router.navigateByUrl(url);
   }
 
@@ -48,9 +48,9 @@ export class ClienteComponent implements OnInit {
 
   private pesquisar(pesquisa: string): void {
     this.loading = true;
-    this.clienteService.get(pesquisa).subscribe(
+    this.fornecedorService.get(pesquisa).subscribe(
       (result) => {
-        this.clientes = result;
+        this.fornecedores = result;
         this.loading = false;
       },
       (err) => {
@@ -64,14 +64,14 @@ export class ClienteComponent implements OnInit {
     this.pesquisar("");
   }
 
-  public editar(cliente: Cliente): void {
-    var url = `${AppRoutes.Clientes.Cadastro()}/${cliente.id}`;
+  public editar(fornecedor: Fornecedor): void {
+    var url = `${AppRoutes.Fornecedores.Cadastro()}/${fornecedor.id}`;
     this.router.navigateByUrl(url);
   }
 
-  public excluir(cliente: Cliente): void {
-    if (confirm(`Deseja excluir o registro ${cliente.nome}?`)) {
-      this.clienteService.delete(cliente.id).subscribe(
+  public excluir(fornecedor: Fornecedor): void {
+    if (confirm(`Deseja excluir o registro ${fornecedor.nome}?`)) {
+      this.fornecedorService.delete(fornecedor.id).subscribe(
         (result) => {
           this.pesquisar("");
         },
