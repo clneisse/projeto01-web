@@ -22,9 +22,9 @@ export const AppRoutes = {
     base: () => "produtos",
     Cadastro: () => { return AppRoutes.Produto.base() + "/cad-produto" },
   },
-  Orcamento: {
-    base: () => "orcamentos",
-    Cadastro: () => { return AppRoutes.Orcamento.base() + "/cad-orcamento" },
+  Caixa: {
+    base: () => "caixas",
+    Cadastro: () => { return AppRoutes.Caixa.base() + "/cad-caixa" },
   },
   Usuarios: {
     base: () => "usuarios",

@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: AppRoutes.Caixa.base(),
-    loadChildren: () => import('./orcamentos/caixas.module').then(m => m.CaixasModule),
+    loadChildren: () => import('./caixas/caixas.module').then(m => m.CaixasModule),
     canActivate: [AuthGuard]
   },
   {
