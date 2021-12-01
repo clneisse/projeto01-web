@@ -47,4 +47,4 @@ import { NgxMaskModule } from 'ngx-mask';
     NgxMaskModule.forRoot()
   ]
 })
-export class ClientesModule { }
+export class ResponsaveisModule { }

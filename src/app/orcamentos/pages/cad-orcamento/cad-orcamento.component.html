@@ -20,17 +20,17 @@
                 </nz-form-item>
             </div>
             <div nz-col nzSm="24">
-                <nz-form-label nzFor="nome" [nzNoColon]="true">Cliente</nz-form-label>
+                <nz-form-label nzFor="nome" [nzNoColon]="true">Responsavel</nz-form-label>
                 <nz-form-item>
                     <nz-form-control [nzSpan]="24" nzErrorTip="Campo requerido">
-                        <nz-select nzShowSearch nzAllowClear [(ngModel)]="clienteSel"
-                            [nzPlaceHolder]="carregandoClientes ? 'Carregando...' : 'Selecione...'"
-                            formControlName="clienteId">
-                            <ng-container *ngFor="let cliente of clientes">
-                                <nz-option *ngIf="!carregandoClientes" [nzLabel]="cliente.nome" [nzValue]="cliente.id">
+                        <nz-select nzShowSearch nzAllowClear [(ngModel)]="responsavelSel"
+                            [nzPlaceHolder]="carregandoResponsaveis ? 'Carregando...' : 'Selecione...'"
+                            formControlName="responsavelId">
+                            <ng-container *ngFor="let responsavel of responsaveis">
+                                <nz-option *ngIf="!carregandoResponsaveis" [nzLabel]="responsavel.nome" [nzValue]="responsavel.id">
                                 </nz-option>
                             </ng-container>
-                            <nz-option *ngIf="carregandoClientes" nzDisabled nzCustomContent>
+                            <nz-option *ngIf="carregandoResponsaveis" nzDisabled nzCustomContent>
                                 <i nz-icon nzType="loading" class="loading-icon"></i>
                                 Carregando...
                             </nz-option>

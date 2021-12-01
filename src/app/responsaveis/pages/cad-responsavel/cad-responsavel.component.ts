@@ -44,7 +44,7 @@ export class CadResponsavelComponent implements OnInit {
         //Caso o parametro seja o valor "novo" então devemos gerar um novo registro
         if (this.idSelecionado == null || this.idSelecionado.toLowerCase() === 'novo') {
           this.novoRegistro = true;
-          this.cliente = new Cliente();
+          this.responsavel = new Responsavel();
           //Caso contrário devemos consultar na base para atualizar os valores
         } else {
           this.pesquisarPorId();

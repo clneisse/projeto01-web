@@ -2,9 +2,13 @@ export const AppRoutes = {
   Login: {
     base: () => "login",    
   },
-  Clientes: {
-    base: () => "clientes",
-    Cadastro: () => { return AppRoutes.Clientes.base() + "/cad-cliente" },
+  Fornecedores: {
+    base: () => "fornecedores",
+    Cadastro: () => { return AppRoutes.Fornecedores.base() + "/cad-fornecedor" },
+  },
+  Responsaveis: {
+    base: () => "responsaveis",
+    Cadastro: () => { return AppRoutes.Responsaveis.base() + "/cad-responsavel" },
   },
   Grupos: {
     base: () => "grupos",

@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Cliente } from '../fornecedores/fornecedor';
+import { Responsavel } from '../responsaveis/responsavel';
 import { FormaPagamento } from '../forma-pagamento/forma-pagamento';
 import { OrcamentoItem } from './orcamento-item';
 
 export class Orcamento {
     public id: string
     public dataOrcamento: Date
-    public clienteId: string 
-    public cliente:Cliente   
+    public responsavelId: string 
+    public responsavel:Responsavel   
     public usuarioId: string    
     public formaPagamentoId: string    
     public formaPagamento: FormaPagamento

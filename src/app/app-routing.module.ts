@@ -18,8 +18,13 @@ const routes: Routes = [
     canActivate: [LoginGuard]
   },   
   {
-    path: AppRoutes.Clientes.base(),
-    loadChildren: () => import('./clientes/clientes.module').then(m => m.ClientesModule),
+    path: AppRoutes.Fornecedores.base(),
+    loadChildren: () => import('./fornecedores/fornecedores.module').then(m => m.FornecedoresModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: AppRoutes.Responsaveis.base(),
+    loadChildren: () => import('./responsaveis/responsaveis.module').then(m => m.ResponsaveisModule),
     canActivate: [AuthGuard]
   },
   {

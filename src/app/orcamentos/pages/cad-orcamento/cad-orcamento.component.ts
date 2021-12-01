@@ -3,11 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AppRoutes } from 'src/app/app-routes';
-import { ClienteService } from 'src/app/data-services/fornecedor.service';
+import { ResponsavelService } from 'src/app/data-services/responsavel.service';
 import { FormaPagamentoService } from 'src/app/data-services/forma-pagamento.service';
 import { OrcamentoService } from 'src/app/data-services/orcamento.service';
 import { AssignFormHelper } from 'src/app/helper/AssignFormHelper';
-import { Cliente } from 'src/app/models/fornecedores/fornecedor';
+import { Responsavel } from 'src/app/models/responsaveis/responsavel';
 import { FormaPagamento } from 'src/app/models/forma-pagamento/forma-pagamento';
 import { Orcamento } from 'src/app/models/orcamento/orcamento';
 
@@ -27,9 +27,9 @@ export class CadOrcamentoComponent implements OnInit {
   public novoRegistro: boolean = false;
   public orcamento: Orcamento;
 
-  public clientes: Cliente[] = [];
-  public carregandoClientes: boolean = false;
-  public clienteSel: string;
+  public responsaveis: Responsavel[] = [];
+  public carregandoResponsaveis: boolean = false;
+  public responsavelSel: string;
 
   public formasPagamentos: FormaPagamento[] = [];
   public carregandoFormasPgto: boolean = false;
@@ -41,7 +41,7 @@ export class CadOrcamentoComponent implements OnInit {
 
   public form: FormGroup = new FormGroup({
     dataOrcamento: new FormControl(new Date(),),
-    clienteId: new FormControl(null, [Validators.required]),
+    responsavelId: new FormControl(null, [Validators.required]),
     usuarioId: new FormControl(null),
     formaPagamentoId: new FormControl(1, [Validators.required]),
     observacao: new FormControl(null),
@@ -56,7 +56,7 @@ export class CadOrcamentoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NzModalService,
     private orcamentoService: OrcamentoService,
-    private clienteService: ClienteService,
+    private responsavelService: ResponsavelService,
     private formaPgtService: FormaPagamentoService,
     private i18n: NzI18nService
   ) {
@@ -79,7 +79,7 @@ export class CadOrcamentoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.carregarClientes();
+    this.carregarResponsaveis();
     this.carregarFormasPgto();
   }
 
@@ -93,17 +93,17 @@ export class CadOrcamentoComponent implements OnInit {
     );
   }
 
-  private carregarClientes() {
-    this.clienteService.get("").subscribe(
+  private carregarResponsaveis() {
+    this.responsavelService.get("").subscribe(
       (result) => {
-        this.carregandoClientes = false;
-        this.clientes = result;
+        this.carregandoResponsaveis = false;
+        this.responsaveis = result;
       },
       (error) => {
-        this.carregandoClientes = false;
+        this.carregandoResponsaveis = false;
         this.modalService.error({
-          nzTitle: 'Falha ao carregar os clientes',
-          nzContent: 'Não foi possível carregar a lista de clientes.'
+          nzTitle: 'Falha ao carregar os responsaveis',
+          nzContent: 'Não foi possível carregar a lista de responsaveis.'
         });
         console.log(error);
       });
@@ -112,11 +112,11 @@ export class CadOrcamentoComponent implements OnInit {
   private carregarFormasPgto() {
     this.formaPgtService.get("").subscribe(
       (result) => {
-        this.carregandoClientes = false;
+        this.carregandoResponsaveis = false;
         this.formasPagamentos = result;
       },
       (error) => {
-        this.carregandoClientes = false;
+        this.carregandoResponsaveis = false;
         this.modalService.error({
           nzTitle: 'Falha ao carregar as formas de pagamento',
           nzContent: 'Não foi possível carregar a lista de formas de pagamento.'
@@ -166,7 +166,7 @@ export class CadOrcamentoComponent implements OnInit {
   private carregarDados() {
     if (this.orcamento) {
       this.form.get("dataOrcamento").setValue(this.orcamento.dataOrcamento);
-      this.form.get("clienteId").setValue(this.orcamento.clienteId);
+      this.form.get("responsavelId").setValue(this.orcamento.responsavelId);
       this.form.get("usuarioId").setValue(this.orcamento.usuarioId);
       this.form.get("formaPagamentoId").setValue(this.orcamento.formaPagamentoId);
       this.form.get("observacao").setValue(this.orcamento.observacao);
@@ -183,7 +183,7 @@ export class CadOrcamentoComponent implements OnInit {
       this.form.get("totalProdutos").setValue(this.orcamento.totalProdutos);
       this.form.get("totalProdutos").disable();
 
-      this.clienteSel = this.orcamento.clienteId;
+      this.responsavelSel = this.orcamento.responsavelId;
       this.formaPagamentoSel = this.orcamento.formaPagamentoId;
 
       this.orcamentoItens = this.orcamento.itens;
