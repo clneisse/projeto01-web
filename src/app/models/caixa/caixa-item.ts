@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Produto } from '../produtos/produto';
 
-export class OrcamentoItem {
+export class CaixaItem {
         
     public id: string
-    public orcamentoId: string    
+    public caixaId: string    
     public produtoId: string    
     public produto: Produto    
     public observacao: string
@@ -14,7 +14,7 @@ export class OrcamentoItem {
     public totalUnitario: number
     public totalItem: number
     
-    constructor(init?: Partial<OrcamentoItem>) {
+    constructor(init?: Partial<CaixaItem>) {
         debugger;
         if (init) {
             Object.assign(this, init);

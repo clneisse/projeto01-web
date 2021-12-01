@@ -43,8 +43,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: AppRoutes.Orcamento.base(),
-    loadChildren: () => import('./orcamentos/orcamentos.module').then(m => m.OrcamentosModule),
+    path: AppRoutes.Caixa.base(),
+    loadChildren: () => import('./orcamentos/caixas.module').then(m => m.CaixasModule),
     canActivate: [AuthGuard]
   },
   {

@@ -5,27 +5,27 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AppRoutes } from 'src/app/app-routes';
 import { ResponsavelService } from 'src/app/data-services/responsavel.service';
 import { FormaPagamentoService } from 'src/app/data-services/forma-pagamento.service';
-import { OrcamentoService } from 'src/app/data-services/orcamento.service';
+import { CaixaService } from 'src/app/data-services/caixa.service';
 import { AssignFormHelper } from 'src/app/helper/AssignFormHelper';
 import { Responsavel } from 'src/app/models/responsaveis/responsavel';
 import { FormaPagamento } from 'src/app/models/forma-pagamento/forma-pagamento';
-import { Orcamento } from 'src/app/models/orcamento/orcamento';
+import { Caixa } from 'src/app/models/caixa/caixa';
 
 import { getISOWeek } from 'date-fns';
 import { pt_BR, NzI18nService } from 'ng-zorro-antd/i18n';
-import { OrcamentoItem } from 'src/app/models/orcamento/orcamento-item';
-import { ModalItemOrcamentoComponent } from '../componentes/modal-item-orcamento/modal-item-orcamento.component';
+import { CaixaItem } from 'src/app/models/caixa/caixa-item';
+import { ModalItemCaixaComponent } from '../componentes/modal-item-caixa/modal-item-caixa.component';
 
 @Component({
-  selector: 'app-cad-orcamento',
-  templateUrl: './cad-orcamento.component.html',
-  styleUrls: ['./cad-orcamento.component.scss']
+  selector: 'app-cad-caixa',
+  templateUrl: './cad-caixa.component.html',
+  styleUrls: ['./cad-caixa.component.scss']
 })
-export class CadOrcamentoComponent implements OnInit {
+export class CadCaixaComponent implements OnInit {
 
   private idSelecionado: string;
   public novoRegistro: boolean = false;
-  public orcamento: Orcamento;
+  public caixa: Caixa;
 
   public responsaveis: Responsavel[] = [];
   public carregandoResponsaveis: boolean = false;
@@ -55,7 +55,7 @@ export class CadOrcamentoComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private modalService: NzModalService,
-    private orcamentoService: OrcamentoService,
+    private caixaService: CaixaService,
     private responsavelService: ResponsavelService,
     private formaPgtService: FormaPagamentoService,
     private i18n: NzI18nService
@@ -70,7 +70,7 @@ export class CadOrcamentoComponent implements OnInit {
         //Caso o parametro seja o valor "novo" então devemos gerar um novo registro
         if (this.idSelecionado == null || this.idSelecionado.toLowerCase() === 'novo') {
           this.novoRegistro = true;
-          this.orcamento = new Orcamento();
+          this.caixa = new Caixa();
           //Caso contrário devemos consultar na base para atualizar os valores
         } else {
           this.pesquisarPorId();
@@ -84,9 +84,9 @@ export class CadOrcamentoComponent implements OnInit {
   }
 
   private pesquisarPorId() {
-    this.orcamentoService.getById(this.idSelecionado).subscribe(
+    this.caixaService.getById(this.idSelecionado).subscribe(
       (result) => {
-        this.orcamento = result;
+        this.caixa = result;
         this.carregarDados();
       },
       (err) => { }
@@ -126,21 +126,21 @@ export class CadOrcamentoComponent implements OnInit {
   }
 
   public voltar(): void {
-    this.router.navigateByUrl(AppRoutes.Orcamento.base());
+    this.router.navigateByUrl(AppRoutes.Caixa.base());
   }
 
   public salvar(): void {
 
     //Passa os valores do form para o objeto
-    AssignFormHelper.assignFormValues<Orcamento>(this.form, this.orcamento);
+    AssignFormHelper.assignFormValues<Caixa>(this.form, this.caixa);
 
     //Se o form estiver válido segue para o processo de salvar ou atualizar
     if (this.form.valid) {
 
       //Verificar qual operaçao o usuário está querendo executar
       const operacao = this.novoRegistro 
-        ? this.orcamentoService.add(this.orcamento) 
-        : this.orcamentoService.update(this.orcamento);
+        ? this.caixaService.add(this.caixa) 
+        : this.caixaService.update(this.caixa);
 
       operacao.subscribe((result) => {
         this.voltar();
@@ -164,43 +164,43 @@ export class CadOrcamentoComponent implements OnInit {
   }
 
   private carregarDados() {
-    if (this.orcamento) {
-      this.form.get("dataOrcamento").setValue(this.orcamento.dataOrcamento);
-      this.form.get("responsavelId").setValue(this.orcamento.responsavelId);
-      this.form.get("usuarioId").setValue(this.orcamento.usuarioId);
-      this.form.get("formaPagamentoId").setValue(this.orcamento.formaPagamentoId);
-      this.form.get("observacao").setValue(this.orcamento.observacao);
+    if (this.caixa) {
+      this.form.get("dataCaixa").setValue(this.caixa.dataCaixa);
+      this.form.get("responsavelId").setValue(this.caixa.responsavelId);
+      this.form.get("usuarioId").setValue(this.caixa.usuarioId);
+      this.form.get("formaPagamentoId").setValue(this.caixa.formaPagamentoId);
+      this.form.get("observacao").setValue(this.caixa.observacao);
 
-      this.form.get("quantidadeDeItens").setValue(this.orcamento.quantidadeDeItens);
+      this.form.get("quantidadeDeItens").setValue(this.caixa.quantidadeDeItens);
       this.form.get("quantidadeDeItens").disable();
 
-      this.form.get("totalItens").setValue(this.orcamento.totalItens);
+      this.form.get("totalItens").setValue(this.caixa.totalItens);
       this.form.get("totalItens").disable();
 
-      this.form.get("totalDesconto").setValue(this.orcamento.totalDesconto);
+      this.form.get("totalDesconto").setValue(this.caixa.totalDesconto);
       this.form.get("totalDesconto").disable();
 
-      this.form.get("totalProdutos").setValue(this.orcamento.totalProdutos);
+      this.form.get("totalProdutos").setValue(this.caixa.totalProdutos);
       this.form.get("totalProdutos").disable();
 
-      this.responsavelSel = this.orcamento.responsavelId;
-      this.formaPagamentoSel = this.orcamento.formaPagamentoId;
+      this.responsavelSel = this.caixa.responsavelId;
+      this.formaPagamentoSel = this.caixa.formaPagamentoId;
 
-      this.orcamentoItens = this.orcamento.itens;
+      this.caixaItens = this.caixa.itens;
 
     }
   }
 
-  public editar(item: OrcamentoItem): void {
+  public editar(item: CaixaItem): void {
     this.abrirModalItem(item);
   }
 
-  public excluir(item: OrcamentoItem): void {
+  public excluir(item: CaixaItem): void {
     let prod = item.produto ? item.produto.nome : ""
     if (confirm(`Deseja excluir o registro ${prod}?`)) {
 
-      const index = this.orcamento.itens.indexOf(item);
-      this.orcamento.itens.splice(index, 1);
+      const index = this.caixa.itens.indexOf(item);
+      this.caixa.itens.splice(index, 1);
       this.forcarAtualizarTabelaItens();
 
       this.calcularTotais();
@@ -209,18 +209,18 @@ export class CadOrcamentoComponent implements OnInit {
   }
 
   public adicionar() {
-    this.abrirModalItem(new OrcamentoItem());
+    this.abrirModalItem(new CaixaItem());
 
   }
 
   private calcularTotais(){
     
-    this.form.get("quantidadeDeItens").setValue(this.orcamento.itens.length);
+    this.form.get("quantidadeDeItens").setValue(this.caixa.itens.length);
 
     let totalItens = 0;
     let totalDesconto = 0;
     let totalProdutos = 0;
-    for (const item of this.orcamento.itens) {
+    for (const item of this.caixa.itens) {
       
       totalItens += (item.precoUnitario * item.quantidade);
 
@@ -234,13 +234,13 @@ export class CadOrcamentoComponent implements OnInit {
     this.form.get("totalProdutos").setValue(totalProdutos.toFixed(2));
   }
 
-  public abrirModalItem(item: OrcamentoItem) {
+  public abrirModalItem(item: CaixaItem) {
 
-    const modal = this.modalService.create<ModalItemOrcamentoComponent>({
+    const modal = this.modalService.create<ModalItemCaixaComponent>({
       nzTitle: "Adicionar item",
-      nzContent: ModalItemOrcamentoComponent,
+      nzContent: ModalItemCaixaComponent,
       nzComponentParams: {
-        orcamentoItem: item
+        caixaItem: item
       },
       nzWidth: 650,
       nzFooter: [
@@ -257,9 +257,9 @@ export class CadOrcamentoComponent implements OnInit {
               return;
             }
 
-            const item = this.orcamento.itens.find((item) => item.id == componentInstance.orcamentoItem.id);
+            const item = this.caixa.itens.find((item) => item.id == componentInstance.caixaItem.id);
             if (!item) {
-              this.orcamento.itens.push(componentInstance.orcamentoItem);
+              this.caixa.itens.push(componentInstance.caixaItem);
             }
 
             this.forcarAtualizarTabelaItens();
@@ -276,8 +276,8 @@ export class CadOrcamentoComponent implements OnInit {
 
   private forcarAtualizarTabelaItens(){
     //Gambi! Ps o "data" do componente não reconhece a alteração então é necessário forçar uma atualização
-    this.orcamentoItens = [];
-    this.orcamentoItens = this.orcamento.itens.filter((item) => true);
+    this.caixaItens = [];
+    this.caixaItens = this.caixa.itens.filter((item) => true);
   }
 
 }

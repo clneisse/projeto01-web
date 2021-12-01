@@ -1,24 +1,24 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Responsavel } from '../responsaveis/responsavel';
 import { FormaPagamento } from '../forma-pagamento/forma-pagamento';
-import { OrcamentoItem } from './orcamento-item';
+import { CaixaItem } from './caixa-item';
 
-export class Orcamento {
+export class Caixa {
     public id: string
-    public dataOrcamento: Date
+    public dataCaixa: Date
     public responsavelId: string 
     public responsavel:Responsavel   
     public usuarioId: string    
     public formaPagamentoId: string    
     public formaPagamento: FormaPagamento
     public observacao: string
-    public itens: OrcamentoItem[]
+    public itens: CaixaItem[]
     public quantidadeDeItens: number
     public totalItens: number
     public totalDesconto: number
     public totalProdutos: number
     
-    constructor(init?: Partial<Orcamento>) {
+    constructor(init?: Partial<Caixa>) {
         debugger;
         if (init) {
             Object.assign(this, init);
