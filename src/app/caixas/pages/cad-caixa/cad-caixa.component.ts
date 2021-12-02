@@ -31,10 +31,6 @@ export class CadCaixaComponent implements OnInit {
   public carregandoResponsaveis: boolean = false;
   public responsavelSel: string;
 
-  public formasPagamentos: FormaPagamento[] = [];
-  public carregandoFormasPgto: boolean = false;
-  public formaPagamentoSel: string;
-
   //Somente para atualizar o grid de produtos
   public caixaItens: CaixaItem[] = [];
 
@@ -43,7 +39,6 @@ export class CadCaixaComponent implements OnInit {
     dataCaixa: new FormControl(new Date(),),
     responsavelId: new FormControl(null, [Validators.required]),
     usuarioId: new FormControl(null),
-    formaPagamentoId: new FormControl(1, [Validators.required]),
     observacao: new FormControl(null),
     quantidadeDeItens: new FormControl(null),
     totalItens: new FormControl(null),
@@ -57,7 +52,6 @@ export class CadCaixaComponent implements OnInit {
     private modalService: NzModalService,
     private caixaService: CaixaService,
     private responsavelService: ResponsavelService,
-    private formaPgtService: FormaPagamentoService,
     private i18n: NzI18nService
   ) {
     //this.i18n.setLocale(pt_BR);
@@ -80,7 +74,6 @@ export class CadCaixaComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarResponsaveis();
-    this.carregarFormasPgto();
   }
 
   private pesquisarPorId() {
@@ -109,21 +102,7 @@ export class CadCaixaComponent implements OnInit {
       });
   }
 
-  private carregarFormasPgto() {
-    this.formaPgtService.get("").subscribe(
-      (result) => {
-        this.carregandoResponsaveis = false;
-        this.formasPagamentos = result;
-      },
-      (error) => {
-        this.carregandoResponsaveis = false;
-        this.modalService.error({
-          nzTitle: 'Falha ao carregar as formas de pagamento',
-          nzContent: 'Não foi possível carregar a lista de formas de pagamento.'
-        });
-        console.log(error);
-      });
-  }
+  
 
   public voltar(): void {
     this.router.navigateByUrl(AppRoutes.Caixa.base());
@@ -168,7 +147,6 @@ export class CadCaixaComponent implements OnInit {
       this.form.get("dataCaixa").setValue(this.caixa.dataCaixa);
       this.form.get("responsavelId").setValue(this.caixa.responsavelId);
       this.form.get("usuarioId").setValue(this.caixa.usuarioId);
-      this.form.get("formaPagamentoId").setValue(this.caixa.formaPagamentoId);
       this.form.get("observacao").setValue(this.caixa.observacao);
 
       this.form.get("quantidadeDeItens").setValue(this.caixa.quantidadeDeItens);
@@ -184,7 +162,6 @@ export class CadCaixaComponent implements OnInit {
       this.form.get("totalProdutos").disable();
 
       this.responsavelSel = this.caixa.responsavelId;
-      this.formaPagamentoSel = this.caixa.formaPagamentoId;
 
       this.caixaItens = this.caixa.itens;
 

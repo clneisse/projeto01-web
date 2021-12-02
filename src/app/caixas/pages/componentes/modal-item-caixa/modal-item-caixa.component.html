@@ -23,6 +23,26 @@
         </div>
     </div>
     <div nz-row [nzGutter]="8">
+        <div nz-col nzSm="24">
+            <nz-form-label nzFor="nome" [nzNoColon]="true">Forma Pagamento</nz-form-label>
+            <nz-form-item>
+                <nz-form-control [nzSpan]="24" nzErrorTip="Campo requerido">
+                    <nz-select nzShowSearch nzAllowClear [(ngModel)]="formaPagamentoSel"
+                        [nzPlaceHolder]="carregandoFormasPgto ? 'Carregando...' : 'Selecione...'"
+                        formControlName="formaPagamentoId">
+                        <ng-container *ngFor="let formaPgto of formasPagamentos">
+                            <nz-option *ngIf="!carregandoFormasPgto" [nzLabel]="formaPgto.descricao"
+                                [nzValue]="formaPgto.id">
+                            </nz-option>
+                        </ng-container>
+                        <nz-option *ngIf="carregandoFormasPgto" nzDisabled nzCustomContent>
+                            <i nz-icon nzType="loading" class="loading-icon"></i>
+                            Carregando...
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
         <div nz-col nzSpan="12">
             <nz-form-label nzFor="nome" [nzNoColon]="true">Preço</nz-form-label>
             <nz-form-item>

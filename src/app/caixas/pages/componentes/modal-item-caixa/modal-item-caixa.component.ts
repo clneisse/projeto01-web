@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { FormaPagamentoService } from 'src/app/data-services/forma-pagamento.service';
 import { ProdutoService } from 'src/app/data-services/produto.service';
 import { AssignFormHelper } from 'src/app/helper/AssignFormHelper';
 import { CaixaItem } from 'src/app/models/caixa/caixa-item';
+import { FormaPagamento } from 'src/app/models/forma-pagamento/forma-pagamento';
 import { Produto } from 'src/app/models/produtos/produto';
 
 @Component({
@@ -21,6 +23,7 @@ export class ModalItemCaixaComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     produtoId: new FormControl(null, [Validators.required]),
     observacao: new FormControl(null),
+    formaPagamentoId: new FormControl(1, [Validators.required]),
     quantidade: new FormControl(1, [Validators.required]),
     precoUnitario: new FormControl(1, [Validators.required]),
     desconto: new FormControl(0, [Validators.min(0)]),
@@ -32,13 +35,20 @@ export class ModalItemCaixaComponent implements OnInit {
   public carregandoProdutos: boolean = false;
   public produtoSel: string;
 
+  public formasPagamentos: FormaPagamento[] = [];
+  public carregandoFormasPgto: boolean = false;
+  public formaPagamentoSel: string;
+
+
   constructor(
     private produtoService: ProdutoService,
+    private formaPgtoService: FormaPagamentoService,
     private modalService: NzModalService,
   ) { }
 
   ngOnInit(): void {
     this.carregarProdutos();
+    this.carregarFormasPgto();
     this.carregarDados();    
   }
 
@@ -46,6 +56,7 @@ export class ModalItemCaixaComponent implements OnInit {
 
     this.form.get("produtoId").setValue(this.caixaItem.produtoId);
     this.form.get("observacao").setValue(this.caixaItem.observacao);
+    this.form.get("formaPagamentoId").setValue(this.caixaItem.formaPagamentoId);
     this.form.get("quantidade").setValue(this.caixaItem.quantidade);
     this.form.get("precoUnitario").setValue(this.caixaItem.precoUnitario);
     this.form.get("desconto").setValue(this.caixaItem.desconto);
@@ -80,6 +91,21 @@ export class ModalItemCaixaComponent implements OnInit {
       });
   }
 
+  private carregarFormasPgto() {
+    this.formaPgtoService.get("").subscribe(
+      (result) => {
+        this.carregandoFormasPgto = false;
+        this.formasPagamentos = result;
+      },
+      (error) => {
+        this.carregandoFormasPgto = false;
+        this.modalService.error({
+          nzTitle: 'Falha ao carregar as formas de pagamento',
+          nzContent: 'Não foi possível carregar a lista de formas de pagamento.'
+        });
+        console.log(error);
+      });
+  }
   public produtoOnChange(event) {
 
     var produto = this.produtos.find((p) => p.id == event)

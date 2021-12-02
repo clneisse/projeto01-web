@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { FormaPagamento } from '../forma-pagamento/forma-pagamento';
 import { Produto } from '../produtos/produto';
 
 export class CaixaItem {
@@ -6,7 +7,9 @@ export class CaixaItem {
     public id: string
     public caixaId: string    
     public produtoId: string    
-    public produto: Produto    
+    public produto: Produto  
+    public formaPagamentoId: string    
+    public formaPagamento: FormaPagamento   
     public observacao: string
     public quantidade: number
     public precoUnitario: number
