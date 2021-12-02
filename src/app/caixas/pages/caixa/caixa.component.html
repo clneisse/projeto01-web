@@ -29,7 +29,6 @@
                     <th nzWidth="150px">Ações</th>
                     <th nzWidth="250px">Nome</th>
                     <th>Data</th>
-                    <th>Forma Pgto</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -45,7 +44,6 @@
                     </td>
                     <td>{{item.responsavel.nome}}</td>
                     <td>{{item.dataCaixa | date: 'dd/MM/yyyy' }}</td>
-                    <td>{{item.formaPagamento.descricao}}</td>                    
                     <td>{{item.totalProdutos}}</td>                    
                 </tr>
             </tbody>
