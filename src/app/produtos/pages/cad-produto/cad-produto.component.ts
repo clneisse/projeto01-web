@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { triggerAsyncId } from 'async_hooks';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AppRoutes } from 'src/app/app-routes';
+import { FornecedorService } from 'src/app/data-services/fornecedor.service';
 import { GrupoService } from 'src/app/data-services/grupo.service';
 import { ProdutoService } from 'src/app/data-services/produto.service';
 import { AssignFormHelper } from 'src/app/helper/AssignFormHelper';
+import { Fornecedor } from 'src/app/models/fornecedores/fornecedor';
 import { Grupo } from 'src/app/models/grupos/grupo';
 import { Produto } from 'src/app/models/produtos/produto';
 
@@ -24,9 +27,14 @@ export class CadProdutoComponent implements OnInit {
   public carregandoGrupos: boolean = false;
   public grupoSelecionado: string;
 
+  public fornecedores: Fornecedor[] = [];
+  public carregandoFornecedores: boolean = false;
+  public fornecedorSelecionado: string;
+
 
   public form: FormGroup = new FormGroup({
     grupoProdutoId: new FormControl(null, [Validators.required]),
+    fornecedorId: new FormControl(null, [Validators.required]),
     nome: new FormControl(null, [Validators.required]),
     descricao: new FormControl(null, [Validators.required]),
     preco: new FormControl(1, [Validators.min(1)]),
@@ -39,7 +47,8 @@ export class CadProdutoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NzModalService,
     private produtoService: ProdutoService,
-    private grupoService: GrupoService
+    private grupoService: GrupoService,
+    private fornecedorService: FornecedorService
   ) {
     this.activatedRoute.params.subscribe(
       (params) => {
@@ -60,7 +69,9 @@ export class CadProdutoComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarGrupos();
+    this.carregarFornecedores();
   }
+  
 
   private pesquisarPorId() {
     this.produtoService.getById(this.idSelecionado).subscribe(
@@ -83,6 +94,22 @@ export class CadProdutoComponent implements OnInit {
         this.modalService.error({
           nzTitle: 'Falha ao carregar os grupos',
           nzContent: 'Não foi possível carregar a lista de grupos.'
+        });
+        console.log(error);
+      });
+  }
+
+  private carregarFornecedores() {
+    this.fornecedorService.get("").subscribe(
+      (fornecedores) => {
+        this.carregandoFornecedores = false;
+        this.fornecedores = fornecedores;
+      },
+      (error) => {
+        this.carregandoFornecedores = false;
+        this.modalService.error({
+          nzTitle: 'Falha ao carregar os fornecedores',
+          nzContent: 'Não foi possível carregar a lista de fornecedores.'
         });
         console.log(error);
       });
@@ -128,6 +155,7 @@ export class CadProdutoComponent implements OnInit {
     if (this.produto) {
       this.form.get("descricao").setValue(this.produto.descricao);
       this.form.get("grupoProdutoId").setValue(this.produto.grupoProdutoId);
+      this.form.get("fornecedorId").setValue(this.produto.fornecedorId);
       this.form.get("nome").setValue(this.produto.nome);
       this.form.get("descricao").setValue(this.produto.descricao);
       this.form.get("preco").setValue(this.produto.preco);
@@ -135,6 +163,7 @@ export class CadProdutoComponent implements OnInit {
       this.form.get("codigoExterno").setValue(this.produto.codigoExterno);
 
       this.grupoSelecionado = this.produto.grupoProdutoId;
+      this.fornecedorSelecionado = this.produto.fornecedorId;
 
     }
 
