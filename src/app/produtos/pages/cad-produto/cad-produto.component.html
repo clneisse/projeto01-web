@@ -29,6 +29,23 @@
                 </nz-form-item>
             </div>
             <div nz-col nzSm="24">
+                <nz-form-label nzFor="nome" [nzNoColon]="true">Fornecedor</nz-form-label>
+                <nz-form-item>
+                    <nz-select nzShowSearch nzAllowClear [(ngModel)]="fornecedorSelecionado"
+                        [nzPlaceHolder]="carregandoFornecedores ? 'Carregando...' : 'Selecione...'"
+                        formControlName="fornecedorId">
+                        <ng-container *ngFor="let fornecedor of fornecedores">
+                            <nz-option *ngIf="!carregandoFornecedores" [nzLabel]="fornecedor.nome" [nzValue]="fornecedor.id">
+                            </nz-option>
+                        </ng-container>
+                        <nz-option *ngIf="carregandoFornecedores" nzDisabled nzCustomContent>
+                            <i nz-icon nzType="loading" class="loading-icon"></i>
+                            Carregando...
+                        </nz-option>
+                    </nz-select>
+                </nz-form-item>
+            </div>
+            <div nz-col nzSm="24">
                 <nz-form-label nzFor="nome" [nzNoColon]="true">Nome</nz-form-label>
                 <nz-form-item>
                     <nz-form-control [nzSpan]="24" nzErrorTip="Campo requerido">
