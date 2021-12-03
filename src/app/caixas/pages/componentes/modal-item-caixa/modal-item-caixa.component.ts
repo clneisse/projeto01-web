@@ -23,7 +23,7 @@ export class ModalItemCaixaComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     produtoId: new FormControl(null, [Validators.required]),
     observacao: new FormControl(null),
-    formaPagamentoId: new FormControl(1, [Validators.required]),
+    formaPagamentoId: new FormControl(null, [Validators.required]),
     quantidade: new FormControl(1, [Validators.required]),
     precoUnitario: new FormControl(1, [Validators.required]),
     desconto: new FormControl(0, [Validators.min(0)]),
@@ -71,7 +71,11 @@ export class ModalItemCaixaComponent implements OnInit {
     if (produto) {
       this.produtoSel = produto.id;
     }
-
+    var formaPagamento = this.caixaItem.formaPagamento;
+    if (formaPagamento) {
+      this.formaPagamentoSel = formaPagamento.id;
+    }
+    
     this.calcularTotais();
   }
 
